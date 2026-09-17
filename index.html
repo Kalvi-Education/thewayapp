@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://esm.sh; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://esm.sh https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-src 'none'; form-action 'self'"
+    />
+    <title>Ask The Way</title>
+    <meta
+      name="description"
+      content="Ask a real situation and get an answer grounded in the 94 pages of The Kalvium Way."
+    />
+    <!--
+      Ask The Way: a browser-only front door to The Kalvium Way.
+
+      No build step, no package.json, no node_modules. React 18, Babel standalone,
+      Tailwind and daisyUI all come from a CDN at runtime.
+
+      Serve from the repository root so book/ resolves:
+        python3 -m http.server 8000
+        open http://localhost:8000/
+
+      Data: book/registry.json (94 active ways) and book/ways/*.md.
+      Model calls: the visitor's own Gemini key, kept in localStorage as geminiKey.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Inter for body and UI, Fraunces for headings, matching the book viewer. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Fraunces:opsz,wght@9..144,500..800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+              display: ["Fraunces", "ui-serif", "Georgia", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      }
+      .font-display,
+      .prose :is(h1, h2, h3, h4) {
+        font-family: "Fraunces", ui-serif, Georgia, serif;
+        font-variation-settings: "SOFT" 30, "WONK" 0;
+        letter-spacing: -0.01em;
+      }
+      .prose :is(h1, h2, h3, h4) {
+        font-weight: 600;
+      }
+      .prose p {
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .wordmark-accent {
+        color: #c2185b;
+      }
+      .quiet-label,
+      .secondary-text {
+        color: #59616c;
+      }
+      .ui-border {
+        border-color: #767d87;
+      }
+      .ui-divider {
+        background: #767d87;
+      }
+      .accent-border {
+        border-color: #a8004f;
+      }
+      .query-input::placeholder,
+      input::placeholder {
+        color: #626973;
+        opacity: 1;
+      }
+      .btn-outline {
+        border-color: #59616c;
+        color: #202733;
+      }
+      .drawer-panel {
+        animation: slide-in 200ms ease-out;
+      }
+      @keyframes slide-in {
+        from {
+          transform: translateX(16px);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .drawer-panel {
+          animation: none;
+          transition: none;
+        }
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.3.1",
+          "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+          "react-dom": "https://esm.sh/react-dom@18.3.1?deps=react@18.3.1",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1",
+          "marked": "https://esm.sh/marked@12.0.2",
+          "dompurify": "https://esm.sh/dompurify@3.1.6"
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  </head>
+  <body class="bg-base-100 text-base-content min-h-screen">
+    <div id="root">
+      <div class="flex items-center justify-center h-screen">
+        <span class="loading loading-dots loading-lg" aria-label="Loading"></span>
+      </div>
+    </div>
+    <noscript>
+      <div class="p-8 max-w-xl mx-auto">
+        Ask The Way runs in the browser and needs JavaScript. The pages themselves are plain
+        Markdown in <code>book/ways/</code> if you would rather read them directly.
+      </div>
+    </noscript>
+    <script type="text/babel" data-type="module" data-presets="react" src="./app.jsx"></script>
+  </body>
+</html>

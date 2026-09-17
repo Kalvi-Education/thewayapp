@@ -1,0 +1,756 @@
+{
+  "ways": [
+    {
+      "slug": "life-doesn-t-have-a-syllabus-vuca",
+      "title": "Life doesn't have a syllabus (VUCA)",
+      "displayTitle": "Life doesn't have a syllabus (VUCA)",
+      "way": "Twelve years of school taught students that everything testable is announced first. Our job is to uncondition that.",
+      "phase": 1,
+      "file": "book/ways/life-doesn-t-have-a-syllabus-vuca.md"
+    },
+    {
+      "slug": "hour-glass-model-our-way-of-thinking",
+      "title": "hour glass model - our way of thinking",
+      "displayTitle": "The Hourglass model, our way of thinking",
+      "way": "Students at the top, central teams at the base, the Campus Manager at the neck. Everyone serves the layer above them.",
+      "phase": 1,
+      "file": "book/ways/hour-glass-model-our-way-of-thinking.md"
+    },
+    {
+      "slug": "how-does-growth-happen-at-kalvium",
+      "title": "How does growth happen at Kalvium?",
+      "displayTitle": "How does growth happen at Kalvium?",
+      "way": "Growth is compounding across seven named pillars. Small improvements every day, tracked and made visible.",
+      "phase": 1,
+      "file": "book/ways/how-does-growth-happen-at-kalvium.md"
+    },
+    {
+      "slug": "what-are-the-design-principles-of-kalvium-program",
+      "title": "What are the design principles of kalvium program?",
+      "displayTitle": "What are the design principles of Kalvium program?",
+      "way": "Every hour of the program must survive one question. How does this help a student become a 10x engineer?",
+      "phase": 1,
+      "file": "book/ways/what-are-the-design-principles-of-kalvium-program.md"
+    },
+    {
+      "slug": "zeroeth-value-of-students",
+      "title": "Zeroeth value of students?",
+      "displayTitle": "Zeroeth value of students?",
+      "way": "Be like Eklavya. Before we can teach a student anything, they have to be willing to learn without being handed it.",
+      "phase": 1,
+      "file": "book/ways/zeroeth-value-of-students.md"
+    },
+    {
+      "slug": "what-should-students-know-before-joining-kalvium",
+      "title": "What should students know before joining Kalvium?",
+      "displayTitle": "What should students know before joining Kalvium?",
+      "way": "Tell the truth before admission, including the hard parts. The student who joins knowing them is not surprised in week one.",
+      "phase": 1,
+      "file": "book/ways/what-should-students-know-before-joining-kalvium.md"
+    },
+    {
+      "slug": "who-is-a-prospective-kalvium-student-selection",
+      "title": "Who is a prospective Kalvium student? (Selection)",
+      "displayTitle": "Who is a prospective Kalvium student? (Selection)",
+      "way": "We do not admit students because they need a college. We admit them because they are ready to show up.",
+      "phase": 1,
+      "file": "book/ways/who-is-a-prospective-kalvium-student-selection.md"
+    },
+    {
+      "slug": "kalvium-for-many-to-kalvium-for-one",
+      "title": "Kalvium for many to Kalvium for one",
+      "displayTitle": "Kalvium for many to Kalvium for one",
+      "way": "One program, delivered to thousands, still has to meet each student as one person.",
+      "phase": 1,
+      "file": "book/ways/kalvium-for-many-to-kalvium-for-one.md"
+    },
+    {
+      "slug": "integrity-at-kalvium",
+      "title": "Integrity at Kalvium",
+      "displayTitle": "Integrity at Kalvium",
+      "way": "An honest mistake costs a lesson. A dishonest success creates a debt that comes due later, at higher stakes.",
+      "phase": 2,
+      "file": "book/ways/integrity-at-kalvium.md"
+    },
+    {
+      "slug": "embrace-that-life-can-be-unfair",
+      "title": "Embrace that life is unfair",
+      "displayTitle": "Embrace that life can be unfair",
+      "way": "Fairness is not a property of the world. Helping students learn this is our job.",
+      "phase": 2,
+      "file": "book/ways/embrace-that-life-can-be-unfair.md"
+    },
+    {
+      "slug": "you-are-a-kalvian-first",
+      "title": "You are a Kalvian first",
+      "displayTitle": "You are a Kalvian first",
+      "way": "Students carry three identities and can hide behind any of them. Whichever one is convenient to drop, the world still reads them as Kalvium.",
+      "phase": 2,
+      "file": "book/ways/you-are-a-kalvian-first.md"
+    },
+    {
+      "slug": "anti-entitlement",
+      "title": "Anti-entitlement",
+      "displayTitle": "Anti-entitlement",
+      "way": "Nothing here is owed for showing up or paying a fee. First the student, then the campus, then me.",
+      "phase": 2,
+      "file": "book/ways/anti-entitlement.md"
+    },
+    {
+      "slug": "fair-vs-unfair-equality-vs-equity",
+      "title": "Fair vs unfair, equality vs equity",
+      "displayTitle": "Fair vs unfair, equality vs equity",
+      "way": "Fair means the same rules for everybody. It does not mean the same support, and it does not mean things you like.",
+      "phase": 2,
+      "file": "book/ways/fair-vs-unfair-equality-vs-equity.md"
+    },
+    {
+      "slug": "be-like-ekalavya",
+      "title": "Be like Ekalavya.",
+      "displayTitle": "Be like Ekalavya.",
+      "way": "Do not wait to be taught. Own your growth even when mentors are available, and especially when they are not.",
+      "phase": 2,
+      "file": "book/ways/be-like-ekalavya.md"
+    },
+    {
+      "slug": "direct-conversation-to-choices-over-circumstances",
+      "title": "Direct conversation to choices over circumstances",
+      "displayTitle": "Direct conversation to choices over circumstances",
+      "way": "Accountability is not for the circumstance. It is for the choices made before, during and after it.",
+      "phase": 2,
+      "file": "book/ways/direct-conversation-to-choices-over-circumstances.md"
+    },
+    {
+      "slug": "learning-over-stipends",
+      "title": "Learning over stipends",
+      "displayTitle": "Learning over stipends",
+      "way": "A stipend is spent by the end of the month. Skill compounds into every job after. Optimise for the multiplier, not the threshold.",
+      "phase": 2,
+      "file": "book/ways/learning-over-stipends.md"
+    },
+    {
+      "slug": "your-effort-your-outcome",
+      "title": "Your effort your outcome",
+      "displayTitle": "Your effort, your outcome",
+      "way": "The industry is meritocratic. Four years is enough time to prove that to a student, one instance at a time.",
+      "phase": 2,
+      "file": "book/ways/your-effort-your-outcome.md"
+    },
+    {
+      "slug": "learn-to-love-what-you-do",
+      "title": "Learn to love what you do",
+      "displayTitle": "Learn to love what you do",
+      "way": "Joy in this work comes from the problem you solve, not the technology label on it. Chase impact and the label follows.",
+      "phase": 2,
+      "file": "book/ways/learn-to-love-what-you-do.md"
+    },
+    {
+      "slug": "we-believe-capability-can-be-developed",
+      "title": "We Embrace a growth mindset",
+      "displayTitle": "We believe capability can be developed",
+      "way": "Capability is not fixed at birth. Saying \"this student is bad at math\" closes a gate no one can think past.",
+      "phase": 2,
+      "file": "book/ways/we-believe-capability-can-be-developed.md"
+    },
+    {
+      "slug": "grow-the-people-around-me",
+      "title": "Grow the people around me",
+      "displayTitle": "Grow the people around me",
+      "way": "We sell growth. We cannot be a place where only students grow. Stretch the people near you, and keep them safe while they stretch.",
+      "phase": 2,
+      "file": "book/ways/grow-the-people-around-me.md"
+    },
+    {
+      "slug": "disagree-in-the-right-channels",
+      "title": "Disagree in the right channels",
+      "displayTitle": "Disagree in the right channels",
+      "way": "Disagreement changes outcomes only when it travels through a channel that can act on it.",
+      "phase": 3,
+      "file": "book/ways/disagree-in-the-right-channels.md"
+    },
+    {
+      "slug": "no-unionisation-speak-for-yourself-no-on-behalf-of-the-squad",
+      "title": "No Unionisation - Speak for yourself - No \"On behalf of the squad\"",
+      "displayTitle": "No Unionisation - Speak for yourself - No \"On behalf of the squad",
+      "way": "Speak as yourself. A borrowed crowd hides your real situation, and we can only solve real situations.",
+      "phase": 3,
+      "file": "book/ways/no-unionisation-speak-for-yourself-no-on-behalf-of-the-squad.md"
+    },
+    {
+      "slug": "showing-up-every-day",
+      "title": "Showing up every day is a pre-requisite",
+      "displayTitle": "Showing up every day is a pre-requisite",
+      "way": "The skill of showing up regularly can only be learned by showing up regularly. Our side of it is making that time worth their while.",
+      "phase": 3,
+      "file": "book/ways/showing-up-every-day.md"
+    },
+    {
+      "slug": "nothing-compensates-for-lack-of-professionalism",
+      "title": "NOTHING WILL compensate for lack of professionalism",
+      "displayTitle": "Nothing will compensate for lack of professionalism",
+      "way": "Being a professional means knowing your role and doing all of it reliably. The coat and tie are the surface.",
+      "phase": 3,
+      "file": "book/ways/nothing-compensates-for-lack-of-professionalism.md"
+    },
+    {
+      "slug": "what-is-professionalism-kalvium",
+      "title": "What is Professionalism@Kalvium?",
+      "displayTitle": "What is professionalism at Kalvium?",
+      "way": "Professionalism here is a conscience, not a rulebook. You cannot grade students on what you do not practice.",
+      "phase": 3,
+      "file": "book/ways/what-is-professionalism-kalvium.md"
+    },
+    {
+      "slug": "wasting-others-time-is-a-punishable-offence",
+      "title": "Wasting others' time is a punishable offence",
+      "displayTitle": "Wasting others' time is a punishable offence",
+      "way": "In a system built on trust, wasting the time of the people who run it is not a small thing, and we treat it as an offence.",
+      "phase": 3,
+      "file": "book/ways/wasting-others-time-is-a-punishable-offence.md"
+    },
+    {
+      "slug": "dont-criticize-give-solutions",
+      "title": "Dont criticize , give solutions",
+      "displayTitle": "Don't criticise, give solutions",
+      "way": "Criticism with a solution is a contribution. Criticism without one muddies the water for everybody.",
+      "phase": 3,
+      "file": "book/ways/dont-criticize-give-solutions.md"
+    },
+    {
+      "slug": "avoid-knee-jerk-review-at-a-cadence",
+      "title": "Avoid knee-jerk , review at a cadence",
+      "displayTitle": "Avoid knee-jerk , review at a cadence",
+      "way": "One complaint is an anecdote, not a trend. Acknowledge now, act at the review.",
+      "phase": 3,
+      "file": "book/ways/avoid-knee-jerk-review-at-a-cadence.md"
+    },
+    {
+      "slug": "visit-campuses-often-to-be-close-to-the-students",
+      "title": "Visit campuses often to be close to the students",
+      "displayTitle": "Visit campuses often to be close to the students",
+      "way": "The dashboard tells you the stove is hot. Standing in the lab is where you feel it. Design from what you have felt.",
+      "phase": 3,
+      "file": "book/ways/visit-campuses-often-to-be-close-to-the-students.md"
+    },
+    {
+      "slug": "eliminate-the-root-cause",
+      "title": "Eliminate the root cause. Ensure problems don't recur",
+      "displayTitle": "Eliminate the root cause. Ensure problems don't recur",
+      "way": "The second time something breaks, you are no longer looking at an incident. You are looking at the system that will keep producing it.",
+      "phase": 3,
+      "file": "book/ways/eliminate-the-root-cause.md"
+    },
+    {
+      "slug": "follow-up-until-closure",
+      "title": "Follow up until closure",
+      "displayTitle": "Follow up until closure",
+      "way": "Sending it is not finishing it. Whoever feels the impact owns the loop until it closes.",
+      "phase": 3,
+      "file": "book/ways/follow-up-until-closure.md"
+    },
+    {
+      "slug": "a-job-is-not-done-until-it-is-well-done",
+      "title": "Whatever you're doing, do it well",
+      "displayTitle": "A job is not done until it is well done",
+      "way": "Most of our work has a side nobody inspects. That side decides whether the student in front of us gets what they were promised.",
+      "phase": 3,
+      "file": "book/ways/a-job-is-not-done-until-it-is-well-done.md"
+    },
+    {
+      "slug": "kalvians-embrace-disagree-but-commit-fully-in-spirit",
+      "title": "Kalvians embrace disagree but commit (fully in spirit)",
+      "displayTitle": "Kalvians embrace disagree but commit (fully in spirit)",
+      "way": "Argue hard before the decision. After it, execute at 100%, because half-hearted execution makes any decision fail.",
+      "phase": 3,
+      "file": "book/ways/kalvians-embrace-disagree-but-commit-fully-in-spirit.md"
+    },
+    {
+      "slug": "seek-clarity-before-starting",
+      "title": "Seek clarity before starting",
+      "displayTitle": "Seek clarity before starting",
+      "way": "Why, then what, then how. Starting from the how builds busywork that looks like progress.",
+      "phase": 3,
+      "file": "book/ways/seek-clarity-before-starting.md"
+    },
+    {
+      "slug": "if-something-can-be-done-do-it-already",
+      "title": "If something can be done, do it already",
+      "displayTitle": "If something can be done, do it already",
+      "way": "If it is clear, unblocked and yours, do it now. You are closest to the context you will ever be.",
+      "phase": 3,
+      "file": "book/ways/if-something-can-be-done-do-it-already.md"
+    },
+    {
+      "slug": "the-way-the-rule-the-thing",
+      "title": "Problem solve with The Way,The Rule and The Thing",
+      "displayTitle": "Problem solve with The Way, The Rule and The Thing",
+      "way": "Things and rules come to mind first. The more senior you get, the more your instinct should reach for the way.",
+      "phase": 3,
+      "file": "book/ways/the-way-the-rule-the-thing.md"
+    },
+    {
+      "slug": "we-don-t-do-work-for-the-sake-of-optics",
+      "title": "We don't do work for the sake of optics",
+      "displayTitle": "We don't do work for the sake of optics",
+      "way": "Work is judged by what it changed for a student, not by how it looks in a review.",
+      "phase": 3,
+      "file": "book/ways/we-don-t-do-work-for-the-sake-of-optics.md"
+    },
+    {
+      "slug": "values-principles-over-processes",
+      "title": "values: principles over processes",
+      "displayTitle": "Principles over processes",
+      "way": "Communicate the stable why, not the changing how. Principles hold while processes evolve underneath them.",
+      "phase": 3,
+      "file": "book/ways/values-principles-over-processes.md"
+    },
+    {
+      "slug": "function-soul-heart",
+      "title": "Function + Soul? (heart)",
+      "displayTitle": "Function + Soul? (heart)",
+      "way": "When the work feels boring, the fix is not a better task. It is fuller attention to this one.",
+      "phase": 3,
+      "file": "book/ways/function-soul-heart.md"
+    },
+    {
+      "slug": "how-do-we-induct-employees",
+      "title": "How do we induct employees?",
+      "displayTitle": "How do we induct employees?",
+      "way": "Induction is 90 days of manager investment aimed at one target, the new Kalvian running without you.",
+      "phase": 3,
+      "file": "book/ways/how-do-we-induct-employees.md"
+    },
+    {
+      "slug": "compromise-for-the-short-term-will-harm-in-the-long-term-goa",
+      "title": "Compromise for the short term  will harm in the long term goal",
+      "displayTitle": "Short-term compromise harms the long-term goal",
+      "way": "A known standard, knowingly not held, compounds into damage that costs more than holding it would have.",
+      "phase": 3,
+      "file": "book/ways/compromise-for-the-short-term-will-harm-in-the-long-term-goa.md"
+    },
+    {
+      "slug": "student-should-respect-each-other",
+      "title": "Student should respect each other",
+      "displayTitle": "Students should respect each other",
+      "way": "We judge impact, not intent. A student who feels unsafe because of who they are cannot learn.",
+      "phase": 4,
+      "file": "book/ways/student-should-respect-each-other.md"
+    },
+    {
+      "slug": "rituals-rituals-rituals",
+      "title": "Rituals, rituals, rituals",
+      "displayTitle": "Rituals, rituals, rituals",
+      "way": "What we care about, we ritualise. A few minutes done daily beats a big process done occasionally.",
+      "phase": 4,
+      "file": "book/ways/rituals-rituals-rituals.md"
+    },
+    {
+      "slug": "campus-visit-and-audit-is-a-fundamental-part-of-how-we-opera",
+      "title": "Campus visit and audit is a fundamental part of how we operate.",
+      "displayTitle": "Campus visit and audit is a fundamental part of how we operate.",
+      "way": "Trust, but verify. Every campus gets visited and audited regularly, and the point is improvement, not inspection.",
+      "phase": 4,
+      "file": "book/ways/campus-visit-and-audit-is-a-fundamental-part-of-how-we-opera.md"
+    },
+    {
+      "slug": "kalvium-system-should-have-student-360",
+      "title": "Kalvium system should have student 360",
+      "displayTitle": "Kalvium system should have student 360",
+      "way": "What we learn about a student aggregates in one place, visible to the people helping them, so help starts from full context.",
+      "phase": 4,
+      "file": "book/ways/kalvium-system-should-have-student-360.md"
+    },
+    {
+      "slug": "make-every-hour-of-learning-count",
+      "title": "What makes a good pomo?",
+      "displayTitle": "Make every hour of learning count",
+      "way": "Education is asking a student to struggle for an hour, every hour. Our end of that is an hour designed to be worth it.",
+      "phase": 4,
+      "file": "book/ways/make-every-hour-of-learning-count.md"
+    },
+    {
+      "slug": "everybody-in-program-team-must-teach",
+      "title": "Everybody in Program team must teach",
+      "displayTitle": "Everybody in Program team must teach",
+      "way": "If you design what students learn, you stand in front of students often enough that your picture of them is current.",
+      "phase": 4,
+      "file": "book/ways/everybody-in-program-team-must-teach.md"
+    },
+    {
+      "slug": "spine-and-pathway",
+      "title": "Spine and Pathway",
+      "displayTitle": "Spine and Pathway",
+      "way": "Spine is the bare minimum everyone must master. Pathway is where a student's own interest goes deep. The pair is how one program fits each student.",
+      "phase": 4,
+      "file": "book/ways/spine-and-pathway.md"
+    },
+    {
+      "slug": "the-kalvium-system-facilitates-peer-learning",
+      "title": "The Kalvium System facilitates peer learning",
+      "displayTitle": "The Kalvium System facilitates peer learning",
+      "way": "Much of real learning happens between peers. We design for it instead of leaving it to chance.",
+      "phase": 4,
+      "file": "book/ways/the-kalvium-system-facilitates-peer-learning.md"
+    },
+    {
+      "slug": "7-growth-pillars",
+      "title": "7 growth pillars",
+      "displayTitle": "7 growth pillars",
+      "way": "Seven named dimensions of growth, so that \"how is this student doing\" always has a more useful answer than a grade.",
+      "phase": 4,
+      "file": "book/ways/7-growth-pillars.md"
+    },
+    {
+      "slug": "our-assessment-methodology",
+      "title": "Our assessment methodology",
+      "displayTitle": "Our assessment methodology",
+      "way": "We assess to find out whether a student can do the thing, not to rank them. Mastery, checked often, in forms the industry would recognise.",
+      "phase": 4,
+      "file": "book/ways/our-assessment-methodology.md"
+    },
+    {
+      "slug": "work-integration-at-kalvium",
+      "title": "Work Integration at Kalvium",
+      "displayTitle": "Work Integration at Kalvium",
+      "way": "Real work for real companies is inside the degree, from year 2. It is the test of whether learning became value.",
+      "phase": 4,
+      "file": "book/ways/work-integration-at-kalvium.md"
+    },
+    {
+      "slug": "make-every-course-grow-the-student-in-some-way",
+      "title": "how to build courses at kalvium",
+      "displayTitle": "Make every course grow the student in some way",
+      "way": "A course earns its place by growing the student, whether in a fundamental skill, a life skill, or an industry skill.",
+      "phase": 4,
+      "file": "book/ways/make-every-course-grow-the-student-in-some-way.md"
+    },
+    {
+      "slug": "parent-is-a-integral-part-of-students-kalvium-journey",
+      "title": "Parent is a integral part of students Kalvium Journey",
+      "displayTitle": "A parent is an integral part of a student's Kalvium journey",
+      "way": "When campus demands discipline and home validates excuses, the student stalls. Align the parent and the message holds at both ends.",
+      "phase": 4,
+      "file": "book/ways/parent-is-a-integral-part-of-students-kalvium-journey.md"
+    },
+    {
+      "slug": "involve-students-in-kalvium-building",
+      "title": "Involve students in Kalvium building?",
+      "displayTitle": "Involve students in Kalvium building?",
+      "way": "Students who help build Kalvium stop being customers of it. Feedback is a right, involvement is earned, and neither is cheap labour.",
+      "phase": 4,
+      "file": "book/ways/involve-students-in-kalvium-building.md"
+    },
+    {
+      "slug": "what-the-student-needs-over-what-they-want",
+      "title": "Focus on what the student needs over what student wants",
+      "displayTitle": "Focus on what the student needs over what they want",
+      "way": "We are a gym, not a spa. Student-first means their transformation comes first, not their comfort today.",
+      "phase": 4,
+      "file": "book/ways/what-the-student-needs-over-what-they-want.md"
+    },
+    {
+      "slug": "events-events-and-more-events",
+      "title": "Events, Events and more Events",
+      "displayTitle": "Events, Events and more Events",
+      "way": "Lots of events, run for students and by students, because expression is part of engagement.",
+      "phase": 4,
+      "file": "book/ways/events-events-and-more-events.md"
+    },
+    {
+      "slug": "every-hour-grows-a-student-atleast-in-1-growth-pillar",
+      "title": "Every hour grows a student atleast in 1 growth pillar",
+      "displayTitle": "Every hour grows a student in at least one growth pillar",
+      "way": "The timetable test: name the pillar each scheduled hour grows, or give the hour back.",
+      "phase": 4,
+      "file": "book/ways/every-hour-grows-a-student-atleast-in-1-growth-pillar.md"
+    },
+    {
+      "slug": "how-to-and-how-not-to-use-ai-as-an-everyday-tool-for-student",
+      "title": "How to (and how not to) use AI as an everyday tool (for students)",
+      "displayTitle": "How to (and how not to) use AI as an everyday tool (for students)",
+      "way": "Is AI helping you understand, or helping you escape understanding? That one question is the whole policy.",
+      "phase": 4,
+      "file": "book/ways/how-to-and-how-not-to-use-ai-as-an-everyday-tool-for-student.md"
+    },
+    {
+      "slug": "what-is-student-code-of-conduct",
+      "title": "What is student code of conduct?",
+      "displayTitle": "What is student code of conduct?",
+      "way": "Every campus keeps a published code of conduct: what is expected, what is not, and what happens then. The document is the team's to write.",
+      "phase": 4,
+      "file": "book/ways/what-is-student-code-of-conduct.md"
+    },
+    {
+      "slug": "philosophy-of-penal-actions-at-kalvium",
+      "title": "Philosophy of penal actions at Kalvium",
+      "displayTitle": "Philosophy of penal actions at Kalvium",
+      "way": "Penal action is reformative. The student compensates by contributing back, and irreversible steps come last, not first.",
+      "phase": 4,
+      "file": "book/ways/philosophy-of-penal-actions-at-kalvium.md"
+    },
+    {
+      "slug": "student-personas-at-kalvium",
+      "title": "Student personas at Kalvium",
+      "displayTitle": "Student personas at Kalvium",
+      "way": "Diagnose the state a student is in this month before you respond to anything they did.",
+      "phase": 4,
+      "file": "book/ways/student-personas-at-kalvium.md"
+    },
+    {
+      "slug": "each-campus-has-its-rhythm-plan-for-each-campus-not-for-aggr",
+      "title": "Each campus has its rhythm. Plan for each campus not for aggregate",
+      "displayTitle": "Each campus has its rhythm. Plan for each campus not for aggregate",
+      "way": "There is no average campus. A plan that fits the aggregate sets real campuses up to fail.",
+      "phase": 5,
+      "file": "book/ways/each-campus-has-its-rhythm-plan-for-each-campus-not-for-aggr.md"
+    },
+    {
+      "slug": "campus-must-be-a-self-sufficient-unit-supported-by-kalvium",
+      "title": "Campus must be a self sufficient unit supported by Kalvium",
+      "displayTitle": "A campus must be a self-sufficient unit supported by Kalvium",
+      "way": "A campus that phones home for every decision is not running, it is waiting.",
+      "phase": 5,
+      "file": "book/ways/campus-must-be-a-self-sufficient-unit-supported-by-kalvium.md"
+    },
+    {
+      "slug": "schedule-in-detail-and-adhere-to-it-with-military-discipline",
+      "title": "Schedule in detail and adhere to it with military discipline",
+      "displayTitle": "Schedule in detail and adhere to it with military discipline",
+      "way": "A detailed schedule is an act of care. It removes the anxiety of not knowing, and it only works if we hold it.",
+      "phase": 5,
+      "file": "book/ways/schedule-in-detail-and-adhere-to-it-with-military-discipline.md"
+    },
+    {
+      "slug": "non-negotiables-to-deliver-the-program-in-a-university",
+      "title": "Non negotiables to deliver the program in a university",
+      "displayTitle": "Non-negotiables to deliver the program in a university",
+      "way": "The university runs the campus. Kalvium runs the program. Students belong to both.",
+      "phase": 5,
+      "file": "book/ways/non-negotiables-to-deliver-the-program-in-a-university.md"
+    },
+    {
+      "slug": "no-restrospective-exceptions-only-prospective-changes",
+      "title": "No restrospective exceptions only prospective changes",
+      "displayTitle": "No retrospective exceptions, only prospective changes",
+      "way": "Rules change forward, never backward. A bar lowered after the fact punishes the students who cleared it.",
+      "phase": 5,
+      "file": "book/ways/no-restrospective-exceptions-only-prospective-changes.md"
+    },
+    {
+      "slug": "surface-issues-it-s-not-incompetence-to-call-out-misses-and",
+      "title": "Surface issues - It's not incompetence to call out misses and failures. its a sign of growth",
+      "displayTitle": "Surface issues. Calling out misses and failures is a sign of growth, not incompetence",
+      "way": "Mistakes are okay, hiding them is not. First surface, then solve, then update.",
+      "phase": 5,
+      "file": "book/ways/surface-issues-it-s-not-incompetence-to-call-out-misses-and.md"
+    },
+    {
+      "slug": "not-up-for-debate",
+      "title": "Not up for debate",
+      "displayTitle": "Not up for debate",
+      "way": "Processes are open to challenge. The values they exist to serve are not.",
+      "phase": 5,
+      "file": "book/ways/not-up-for-debate.md"
+    },
+    {
+      "slug": "what-is-the-role-of-mentor-at-kalvium",
+      "title": "What is the role of mentor at Kalvium",
+      "displayTitle": "What is the role of a mentor at Kalvium?",
+      "way": "A mentor owns two things for their students, the subject and the growth. Content is the smaller half.",
+      "phase": 5,
+      "file": "book/ways/what-is-the-role-of-mentor-at-kalvium.md"
+    },
+    {
+      "slug": "campus-team-know-your-student",
+      "title": "Campus Team know your student",
+      "displayTitle": "Campus Team know your student",
+      "way": "If a parent calls, someone on campus should already know their child's story. Otherwise why run an offline program?",
+      "phase": 5,
+      "file": "book/ways/campus-team-know-your-student.md"
+    },
+    {
+      "slug": "going-to-a-session-without-fully-prepared-is-murder-of-the-s",
+      "title": "Going to a session without fully prepared is murder of the session",
+      "displayTitle": "Going to a session unprepared is murder of the session",
+      "way": "An hour in front of 30 students consumes 30 hours of human life. Walking in unprepared steals a day from the world.",
+      "phase": 5,
+      "file": "book/ways/going-to-a-session-without-fully-prepared-is-murder-of-the-s.md"
+    },
+    {
+      "slug": "don-t-be-emotional-attached-to-a-student-but-invest-in-their",
+      "title": "Don't be emotional attached to a student but invest in their growth",
+      "displayTitle": "Don't be emotional attached to a student but invest in their growth",
+      "way": "Attach to the student's long-term trajectory. Detach from their short-term discomfort.",
+      "phase": 5,
+      "file": "book/ways/don-t-be-emotional-attached-to-a-student-but-invest-in-their.md"
+    },
+    {
+      "slug": "what-are-the-traits-of-a-kalvium-mentor",
+      "title": "What are the traits of a Kalvium mentor?",
+      "displayTitle": "What are the traits of a Kalvium mentor?",
+      "way": "Ownership, a growth mindset toward students, professional modelling, system responsibility, continuity.",
+      "phase": 5,
+      "file": "book/ways/what-are-the-traits-of-a-kalvium-mentor.md"
+    },
+    {
+      "slug": "what-is-mentor-code-of-conduct",
+      "title": "What is mentor code of conduct?",
+      "displayTitle": "What is mentor code of conduct?",
+      "way": "A written code must exist, every mentor must know it, and it must state conduct, boundaries and consequences plainly.",
+      "phase": 5,
+      "file": "book/ways/what-is-mentor-code-of-conduct.md"
+    },
+    {
+      "slug": "mentor-retention-transfer-and-duty-to-students",
+      "title": "Mentor retention/ transfer and duty to students",
+      "displayTitle": "Mentor retention, transfer, and duty to students",
+      "way": "Student transformation runs on mentors who stay. Stability is about impact on students, not about forbidding movement.",
+      "phase": 5,
+      "file": "book/ways/mentor-retention-transfer-and-duty-to-students.md"
+    },
+    {
+      "slug": "what-are-the-traits-of-a-campus-manager",
+      "title": "What are the traits of a Campus Manager?",
+      "displayTitle": "What are the traits of a Campus Manager?",
+      "way": "The CM is the entrepreneur of their campus. Four traits carry the role, and observation runs through all of them.",
+      "phase": 5,
+      "file": "book/ways/what-are-the-traits-of-a-campus-manager.md"
+    },
+    {
+      "slug": "peer-learning-is-a-key-part-of-mentor-growth",
+      "title": "Peer learning is a key part of mentor growth",
+      "displayTitle": "Peer learning is a key part of mentor growth",
+      "way": "There is no competition among mentors, only collaboration. If you solve it, share it. If you are stuck, ask.",
+      "phase": 5,
+      "file": "book/ways/peer-learning-is-a-key-part-of-mentor-growth.md"
+    },
+    {
+      "slug": "top-of-mind-items-for-a-cm",
+      "title": "Top of mind items for a CM",
+      "displayTitle": "Top of mind items for a CM",
+      "way": "A CM's attention has a shape: mentors teaching well, students growing visibly, a campus worth belonging to.",
+      "phase": 5,
+      "file": "book/ways/top-of-mind-items-for-a-cm.md"
+    },
+    {
+      "slug": "make-the-mentors-better-at-character-and-community",
+      "title": "Make the mentors better at character and community",
+      "displayTitle": "Make the mentors better at character and community",
+      "way": "Character is caught, not taught. Students learn integrity from watching how we behave when it is inconvenient.",
+      "phase": 5,
+      "file": "book/ways/make-the-mentors-better-at-character-and-community.md"
+    },
+    {
+      "slug": "how-to-handle-university-stakeholder-for-campus-teams",
+      "title": "How to handle university stakeholder? (For campus teams)",
+      "displayTitle": "How to handle a university stakeholder (for campus teams)",
+      "way": "The university is a long-term partner you work with weekly. Clarity of roles, warmth of relationship.",
+      "phase": 5,
+      "file": "book/ways/how-to-handle-university-stakeholder-for-campus-teams.md"
+    },
+    {
+      "slug": "for-a-student-who-is-accountable-for-what-kalvium-university",
+      "title": "For a student, who is accountable for what - Kalvium, University, Company",
+      "displayTitle": "For a student, who is accountable for what - Kalvium, University, Company",
+      "way": "Five parties touch a student's journey. Name who owns what, so issues get routed instead of dropped.",
+      "phase": 5,
+      "file": "book/ways/for-a-student-who-is-accountable-for-what-kalvium-university.md"
+    },
+    {
+      "slug": "actions-have-consequences-enforce-consequences-immediately",
+      "title": "Actions have consequences - Enforce consequences immediately",
+      "displayTitle": "Actions have consequences - Enforce consequences immediately",
+      "way": "Silence at a violation reads as permission, and teaching moments expire.",
+      "phase": 5,
+      "file": "book/ways/actions-have-consequences-enforce-consequences-immediately.md"
+    },
+    {
+      "slug": "how-do-we-handle-bullying",
+      "title": "How do we handle bullying?",
+      "displayTitle": "How do we handle bullying?",
+      "way": "Zero tolerance, on every campus. There is no severity threshold below which we look away.",
+      "phase": 5,
+      "file": "book/ways/how-do-we-handle-bullying.md"
+    },
+    {
+      "slug": "how-do-we-handle-harassment-physical-and-sexual",
+      "title": "How do we handle harassment, physical and sexual",
+      "displayTitle": "How do we handle harassment, physical and sexual",
+      "way": "Zero tolerance. Escalate immediately to the people trained to handle it, and never handle it yourself.",
+      "phase": 5,
+      "file": "book/ways/how-do-we-handle-harassment-physical-and-sexual.md"
+    },
+    {
+      "slug": "celebrate-reflection",
+      "title": "Celebrate Reflection",
+      "displayTitle": "Celebrate Reflection",
+      "way": "Experience becomes growth only when reflected on. Shared reflection turns one person's lesson into the tribe's.",
+      "phase": 5,
+      "file": "book/ways/celebrate-reflection.md"
+    },
+    {
+      "slug": "optimise-for-real-outcomes",
+      "title": "Don't optimise for targets/measures, optimise for real outcomes",
+      "displayTitle": "Don't optimise for targets, optimise for real outcomes",
+      "way": "Once a number becomes the target, people produce the number. Know your students, not your dashboard.",
+      "phase": 6,
+      "file": "book/ways/optimise-for-real-outcomes.md"
+    },
+    {
+      "slug": "alumni-of-kalvium",
+      "title": "Alumni of Kalvium",
+      "displayTitle": "Alumni of Kalvium",
+      "way": "An alumnus is a permanent member of a community we are responsible for sustaining, and the relationship starts before they leave.",
+      "phase": 6,
+      "file": "book/ways/alumni-of-kalvium.md"
+    },
+    {
+      "slug": "showcase-kalvians-to-the-world",
+      "title": "Showcase Kalvians to the world",
+      "displayTitle": "Showcase Kalvians to the world",
+      "way": "Talking about our students' achievements widely is company philosophy, not a marketing task.",
+      "phase": 6,
+      "file": "book/ways/showcase-kalvians-to-the-world.md"
+    },
+    {
+      "slug": "institutional-intelligence-at-kalvium",
+      "title": "Institutional intelligence at Kalvium",
+      "displayTitle": "Institutional intelligence at Kalvium",
+      "way": "What Kalvium learns must outlive the person who learned it.",
+      "phase": 6,
+      "file": "book/ways/institutional-intelligence-at-kalvium.md"
+    },
+    {
+      "slug": "build-a-culture-of-rewards-and-recognition-at-kalvium",
+      "title": "Build a culture of rewards and recognition at Kalvium",
+      "displayTitle": "Build a culture of rewards and recognition at Kalvium",
+      "way": "We recognize culture, loudly and often. Outcomes get an ad-hoc cheer. The baseline gets nothing.",
+      "phase": 6,
+      "file": "book/ways/build-a-culture-of-rewards-and-recognition-at-kalvium.md"
+    },
+    {
+      "slug": "culture-of-feedback",
+      "title": "Culture of feedback",
+      "displayTitle": "Culture of feedback",
+      "way": "Feedback compounds growth, so it must flow. Forums and skill are what keep it from becoming noise.",
+      "phase": 6,
+      "file": "book/ways/culture-of-feedback.md"
+    },
+    {
+      "slug": "we-facilitate-out-those-who-dont-fit-in",
+      "title": "We facilitate out those who dont fit in",
+      "displayTitle": "We facilitate out those who don't fit in",
+      "way": "Fit is judged in order, values first, capability last. When it is not there, we part ways with respect, but quickly, and only with a clean conscience.",
+      "phase": 6,
+      "file": "book/ways/we-facilitate-out-those-who-dont-fit-in.md"
+    },
+    {
+      "slug": "promote-from-within",
+      "title": "Promote from within",
+      "displayTitle": "Promote from within",
+      "way": "The first look is always inward. It is easier to coach skill than to instil conviction, and we owe our people a career, not a job.",
+      "phase": 6,
+      "file": "book/ways/promote-from-within.md"
+    }
+  ]
+}

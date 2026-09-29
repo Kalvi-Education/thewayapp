@@ -65,8 +65,14 @@
         font-weight: 600;
       }
       .prose p {
-        font-size: 1.02rem;
-        line-height: 1.72;
+        line-height: 1.6;
+      }
+      .chat-prose, .chat-prose :is(p, li, strong, em, a, h1, h2, h3, h4) {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      .chat-prose :is(h1, h2, h3, h4) {
+        font-family: inherit;
       }
       .wordmark-accent {
         color: #c2185b;

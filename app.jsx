@@ -47,9 +47,7 @@ function catalogueFor(ways) {
 }
 
 function catalogueLines(catalogue) {
-  return catalogue
-    .map((c) => `- ${c.slug} | P${c.phase} | ${c.title} | ${c.way}`)
-    .join("\n");
+  return catalogue.map((c) => `${c.slug} | ${c.title}`).join("\n");
 }
 
 // FNV-1a. Same slug, same art, on every machine and every reload.
@@ -146,13 +144,9 @@ function resolveStage(triage, allowedSlugs) {
   const allowed = allowedSlugs instanceof Set ? allowedSlugs : new Set(allowedSlugs || []);
   const rawQuestions = Array.isArray(triage && triage.questions) ? triage.questions : [];
   const questions = rawQuestions
-    .filter((q) => q && typeof q.question === "string" && q.question.trim())
-    .map((q) => ({
-      question: String(q.question).trim(),
-      fallback: String((q && q.default) || "").trim(),
-      why: String((q && q.why) || "").trim(),
-    }))
-    .filter((q) => q.fallback);
+    .filter((q) => typeof q === "string" && q.trim())
+    .map((q) => q.trim())
+    .slice(0, 1);
   const slugs = (Array.isArray(triage && triage.slugs) ? triage.slugs : [])
     .filter((s) => typeof s === "string" && allowed.has(s))
     .slice(0, 3);
@@ -163,13 +157,7 @@ function resolveStage(triage, allowedSlugs) {
       ? { mode: "clarify", questions, slugs: [] }
       : {
           mode: "clarify",
-          questions: [
-            {
-              question: "What is the situation, and who is involved?",
-              fallback: "A campus mentor deciding what to do next with one student.",
-              why: "",
-            },
-          ],
+          questions: ["What part of the situation would you like help with?"],
           slugs: [],
         };
   }
@@ -177,103 +165,26 @@ function resolveStage(triage, allowedSlugs) {
   return { mode: "answer", questions: [], slugs };
 }
 
-// Fixed reply for "use the defaults", so the next turn carries the defaults forward.
-function defaultsReply(questions) {
-  const lines = (questions || [])
-    .filter((q) => q.fallback)
-    .map((q) => `${q.question} ${q.fallback}`);
-  return lines.length
-    ? `Use the defaults.\n${lines.join("\n")}`
-    : "Use the defaults and answer with what you have.";
-}
-
-// Shared language rules for grounded, direct prose. Both stages carry them,
-// because clarifying questions ship to a reader too.
-const VOICE_RULES = [
-  "Write as a thoughtful Kalvium colleague speaking to another colleague.",
-  "Use simple, direct language. Use 'we' and 'our' for Kalvium's responsibilities and standards.",
-  "Prefer verbs and specific actions to abstract concepts.",
-  "No em dashes or en dashes. Use commas, full stops, colons or brackets.",
-  "No aphorisms, slogans, polished contrasts, abstract-noun equations, generic praise, filler, cliches or tidy moral endings.",
-  "Keep one main idea in each sentence. Do not combine a claim, a reason and a source attribution in one sentence.",
-  "Do not say 'according to the page', 'as described in', 'as stated in' or 'as mentioned in'. Source cards appear under the answer.",
-  "Do not summarise each source in turn. Build one coherent response around one primary Way.",
-  "The pages control the facts, not the sentence shape. Explain their mechanism in your own ordinary sentences.",
-  "Do not quote or lightly paraphrase a memorable line from a page as if it explains itself.",
-  "Never begin a summary with 'This Way'. Name the belief directly.",
-  "Gloss any Kalvium term or jargon on first use, or use the ordinary word.",
-  "No performative honesty, false emphasis, unsupported absolutes, meta-commentary or defensive denials.",
-  "Every recommendation needs its reasoning beside it. Every verdict needs a reason.",
-  "Use a real anecdote from a supplied page when it makes the action clearer. Never invent one.",
-  "Claim only what the supplied pages support. Do not invent policy, numbers, names, processes or page titles.",
-  "Before returning, remove any sentence that sounds crafted to be quotable or sounds like an AI report.",
-  "Kalvium always has a capital K.",
-];
-
-const GROUNDING_RULES = [
-  "Answer only from the Kalvium Way pages supplied in this message.",
-  "The pages are the whole of what you know about Kalvium. If they do not cover part of the situation, say which part is not covered and stop there.",
-  "Do not invent policy, numbers, names, processes or page titles.",
-  "Do not claim more certainty than the pages carry.",
-];
-
 function clarifySystemPrompt(catalogue) {
   return [
-    "You are kalvium's handbook assistant. You route questions about working at Kalvium to the right pages of The Kalvium Way, a public handbook of 94 pages written primarily for Kalvium employees.",
-    "",
-    "You do two things and nothing else:",
-    "1. Decide whether the situation is clear enough to answer well.",
-    "2. Choose the few pages that speak to it.",
-    "",
-    "Set contextIsClear to false only when an ambiguity would change the advice, for example when the answer differs by who is involved, what has already been tried, or what outcome the person wants. Everyday missing detail is not a reason to ask.",
-    "When you set it to false: give at most three questions, each with a specific default a reasonable reader would accept, and fill 'why' only when the question could surprise the person asking. Leave 'why' empty otherwise. Do not answer the situation in that turn, and do not offer partial advice with the questions.",
-    "When you set it to true: return between one and three slugs from the catalogue below, most relevant first, and leave questions empty. The first slug must be the primary Way that should lead the answer.",
-    "Copy slugs exactly as written. Never invent a slug. If nothing in the catalogue is close, return an empty slug list with contextIsClear true.",
-    "If the conversation already answered your earlier questions, or the person said to use the defaults, set contextIsClear to true and choose pages.",
-    "",
-    "Language rules for the questions you write:",
-    ...VOICE_RULES.map((r) => `- ${r}`),
-    "",
-    "Catalogue, one line each as slug | phase | title | what the way says:",
+    "You are kalvium's handbook assistant. Route the conversation to The Kalvium Way pages.",
+    "Answer when you can give useful advice from the book. Do not ask for details that would only make the answer more specific. If a missing fact would materially change the advice, ask ONE plain, natural question; do not answer yet. Never ask for something already said in the chat.",
+    "If clear, choose one to three relevant slugs, most relevant first, and no questions. Copy slugs exactly. If nothing applies, return no slugs. If clarification is needed, return exactly one question and no slugs. No suggested answers or defaults.",
+    "Catalogue (slug | title):",
     catalogueLines(catalogue),
   ].join("\n");
 }
 
 function answerSystemPrompt() {
   return [
-    "You are kalvium's handbook assistant. You answer a Kalvium employee's real situation using only the supplied pages of The Kalvium Way.",
-    "",
-    "Grounding:",
-    ...GROUNDING_RULES.map((r) => `- ${r}`),
-    "- The first supplied page is the primary Way. Other supplied pages may support it.",
-    "- Do not add a document name, policy, process, consequence or interpretation that is absent from the pages.",
-    "- If the pages leave an operational detail open, ask about it rather than filling the gap.",
-    "",
-    "Write a concise Markdown answer. Guide the reader through it in this order:",
-    "- Begin with the exact title of the primary Way. Do not call it 'our primary Way' and do not write 'This Way asks us'.",
-    "- Summarise what it asks of us and why in one or two plain sentences.",
-    "- Apply it to the situation. Start with the first useful action, use 'we', and include our side of the responsibility where it matters.",
-    "- End with one short, practical question that would let you give the next, more specific step. The question must be one sentence under 25 words. Ask only one question and stop there.",
-    "",
-    "Use short Markdown headings if they help the reader scan. Prefer 'The Kalvium Way', 'In this situation' and 'One question' over formal labels such as 'Our Primary Way', 'Applying the Way' or 'Next Step'.",
-    "Aim for 120 to 170 words and never exceed 190 words. Do not add a conclusion or source summary.",
-    "",
-    "Before returning, privately check every sentence. Rewrite the answer if it contains any of these phrases: 'This Way', 'according to', 'as described in', 'as stated in', 'as mentioned in', 'industry-ready', 'core skill', 'crucial', 'transformation', 'tight feedback loop', 'hold the line', 'signals that', 'silence reads as permission', 'violation seen and let pass', 'becomes the new standard', or 'check that the schedule is holding up its end'.",
-    "",
-    "Language rules:",
-    ...VOICE_RULES.map((r) => `- ${r}`),
-    "",
-    "Sentence-shape examples:",
-    "Bad: 'According to the page on feedback, feedback should be provided immediately, which is crucial for growth.'",
-    "Better: 'Give the feedback while the event is still fresh. We can talk about the exact decision and what needs to change next time.'",
-    "Bad: 'Before holding a student to the schedule, however, check that the schedule is holding up its end.'",
-    "Better: 'While we should hold the student to the schedule, let us also make sure our schedule is set up well and that we follow it consistently.'",
-    "Bad: 'Silence signals that punctuality is optional and undermines student transformation.'",
-    "Better: 'Speak to the students the same day. If we ignore repeated lateness, they have no reason to believe the timing matters.'",
+    "You are kalvium's handbook assistant. Speak to a Kalvium colleague like a senior mentor, using only the supplied pages of The Kalvium Way for facts and advice.",
+    "Respond to the latest message in the context of the whole chat. Give the first useful action and a concrete reason. Say plainly when the pages cannot establish something. Do not invent facts, processes, comparisons or policy.",
+    "Write two or three short conversational paragraphs in plain active language. No headings, page-title openings, source-by-source summary, slogans, aphorisms, jargon, formal conclusions or AI-report phrases. The UI displays the pages separately, so do not list them. Keep the reply brief, usually under 120 words.",
+    "End EVERY answer with exactly one short, natural follow-up question that helps you give the next useful step. Base it on this chat; never repeat a question the reader has already answered. Put the question at the end of the last paragraph. No text after it.",
   ].join("\n");
 }
 
-const CLARIFY_FORMAT = "Return only a JSON object with keys contextIsClear (boolean), questions (array of objects with question, default and why strings), and slugs (array of strings). No Markdown fences.";
+const CLARIFY_FORMAT = "Return only a JSON object with contextIsClear (boolean), questions (array of strings), and slugs (array of strings). No Markdown fences.";
 
 
 // ---------- end pure helpers (region: pure) ----------
@@ -288,6 +199,7 @@ async function callModel({ system, messages, json, signal }) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${PUBLIC_KEY}` },
       body: JSON.stringify({
         model: MODEL,
+        reasoning_effort: "medium",
         messages: [
           { role: "system", content: json ? `${system}\n\n${CLARIFY_FORMAT}` : system },
           ...messages,
@@ -666,7 +578,7 @@ function StageNote({ stage }) {
   );
 }
 
-function Message({ message, waysBySlug, onOpen, onDefaults, onRetry }) {
+function Message({ message, waysBySlug, onOpen, onRetry }) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
@@ -691,27 +603,9 @@ function Message({ message, waysBySlug, onOpen, onDefaults, onRetry }) {
           )}
         </div>
       ) : message.kind === "clarify" ? (
-        <div className="ui-border rounded-2xl rounded-bl-md border bg-base-100 px-4 py-3">
-          <p className="secondary-text text-sm mb-3">
-            A few details would change the answer:
-          </p>
-          <ol className="space-y-3">
-            {message.questions.map((q, i) => (
-              <li key={i}>
-                <p className="font-medium">{q.question}</p>
-                {q.fallback && (
-                  <p className="secondary-text text-sm">Default: {q.fallback}</p>
-                )}
-                {q.why && <p className="secondary-text text-sm">Asking because {q.why}</p>}
-              </li>
-            ))}
-          </ol>
-          <button className="btn btn-sm btn-ghost mt-4" onClick={() => onDefaults(message)}>
-            Use the defaults
-          </button>
-        </div>
+        <p className="py-3">{message.text}</p>
       ) : (
-        <Markdown text={message.text} className="prose-sm sm:prose-base" />
+        <Markdown text={message.text} className="chat-prose" />
       )}
       {cards.length > 0 && (
         <div className="mt-3">
@@ -734,7 +628,6 @@ function Chat({
   setDraft,
   onAsk,
   onOpen,
-  onDefaults,
   onRetry,
   waysBySlug,
   inputRef,
@@ -763,7 +656,6 @@ function Chat({
                 message={m}
                 waysBySlug={waysBySlug}
                 onOpen={onOpen}
-                onDefaults={onDefaults}
                 onRetry={m.kind === "error" ? onRetry : null}
               />
             </div>
@@ -898,9 +790,7 @@ function App() {
         const decision = resolveStage(parseJsonReply(triageRaw), allowedSlugs);
 
         if (decision.mode === "clarify") {
-          const text = decision.questions
-            .map((q) => `${q.question} (default: ${q.fallback})`)
-            .join("\n");
+          const text = decision.questions[0];
           push({ role: "assistant", kind: "clarify", text, questions: decision.questions });
           return;
         }
@@ -909,7 +799,7 @@ function App() {
             role: "assistant",
             kind: "answer",
             text:
-              "No page in The Kalvium Way covers this closely enough for me to answer from the book. Ask about something the book speaks to, such as feedback, campus rhythm, student growth or how decisions get made, and I will point you at the pages.",
+              "I cannot find a page in The Kalvium Way that speaks closely enough to this. What part of your work at Kalvium would you like to explore instead?",
             slugs: [],
           });
           return;
@@ -983,11 +873,6 @@ function App() {
   }, [run, replaceMessages]);
 
 
-  const applyDefaults = useCallback(
-    (message) => send(defaultsReply(message.questions)),
-    [send],
-  );
-
   const way = route.view === "way" ? waysBySlug.get(route.slug) : null;
   const missingWay = route.view === "way" && registry && !way;
 
@@ -1047,7 +932,6 @@ function App() {
             setDraft={setDraft}
             onAsk={() => send(draft)}
             onOpen={openWay}
-            onDefaults={applyDefaults}
             onRetry={retry}
             waysBySlug={waysBySlug}
             inputRef={inputRef}

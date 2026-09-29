@@ -1,9 +1,9 @@
 // Ask The Way: describe a real situation, get an answer grounded in the 94 active
 // pages of The Kalvium Way, with every page one click away.
 //
-// Two stages, both in the browser with the visitor's own Gemini key:
+// Two stages, both in the browser via the public, origin-limited inference endpoint:
 //   1. clarity gate: the whole conversation plus title/one-line/phase metadata for
-//      the 94 active ways. Gemini returns JSON saying whether it can answer yet and
+//      the 94 active ways. The model returns JSON saying whether it can answer yet and
 //      which slugs are relevant.
 //   2. answer: only when stage 1 says the situation is clear. The Markdown of the
 //      chosen pages is fetched, frontmatter stripped, and the answer is grounded in
@@ -24,12 +24,10 @@ marked.setOptions({ mangle: false, headerIds: false });
 // test.mjs evaluates everything between these markers, so keep it free of JSX,
 // imports and browser globals.
 
-const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_ENDPOINT =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-const GEMINI_KEY_HEADER = "x-goog-api-key";
-const KEY_STORAGE_NAME = "geminiKey";
-const AI_STUDIO_KEYS_URL = "https://aistudio.google.com/api-keys";
+const MODEL = "openai-codex/gpt-6-luna";
+const INFERENCE_ENDPOINT = "https://keyproxy-hjxpr2mqoa-el.a.run.app/v1/chat/completions";
+// Public browser key, restricted and budgeted upstream. Never treat it as a secret.
+const PUBLIC_KEY = "sk-kp-public-lmtSEzAQHukVrS8qetOdGMTVUZShR1BG";
 const REGISTRY_URL = "book/registry.json";
 
 // A way ships only if it is active and has a page file.
@@ -127,7 +125,7 @@ function hashFor(view, slug) {
   return view === "ask" ? "#/ask" : "#/";
 }
 
-// Gemini sometimes wraps JSON in a code fence even when asked not to.
+// Models sometimes wrap JSON in a code fence even when asked not to.
 function parseJsonReply(raw) {
   const text = String(raw || "").trim();
   const fenced = /^```(?:json)?\s*([\s\S]*?)\s*```$/.exec(text);
@@ -221,7 +219,7 @@ const GROUNDING_RULES = [
 
 function clarifySystemPrompt(catalogue) {
   return [
-    "You route questions about working at Kalvium to the right pages of The Kalvium Way, a public handbook of 94 pages written primarily for Kalvium employees.",
+    "You are kalvium's handbook assistant. You route questions about working at Kalvium to the right pages of The Kalvium Way, a public handbook of 94 pages written primarily for Kalvium employees.",
     "",
     "You do two things and nothing else:",
     "1. Decide whether the situation is clear enough to answer well.",
@@ -243,7 +241,7 @@ function clarifySystemPrompt(catalogue) {
 
 function answerSystemPrompt() {
   return [
-    "You answer a Kalvium employee's real situation using only the supplied pages of The Kalvium Way.",
+    "You are kalvium's handbook assistant. You answer a Kalvium employee's real situation using only the supplied pages of The Kalvium Way.",
     "",
     "Grounding:",
     ...GROUNDING_RULES.map((r) => `- ${r}`),
@@ -275,115 +273,52 @@ function answerSystemPrompt() {
   ].join("\n");
 }
 
-const CLARIFY_SCHEMA = {
-  type: "OBJECT",
-  properties: {
-    contextIsClear: { type: "BOOLEAN" },
-    questions: {
-      type: "ARRAY",
-      items: {
-        type: "OBJECT",
-        properties: {
-          question: { type: "STRING" },
-          default: { type: "STRING" },
-          why: { type: "STRING" },
-        },
-        required: ["question", "default"],
-      },
-    },
-    slugs: { type: "ARRAY", items: { type: "STRING" } },
-  },
-  required: ["contextIsClear", "questions", "slugs"],
-};
+const CLARIFY_FORMAT = "Return only a JSON object with keys contextIsClear (boolean), questions (array of objects with question, default and why strings), and slugs (array of strings). No Markdown fences.";
 
 
 // ---------- end pure helpers (region: pure) ----------
 
 // ---------- model calls ----------
 
-async function callGemini({ apiKey, system, contents, json, signal, temperature }) {
-  const body = {
-    systemInstruction: { parts: [{ text: system }] },
-    contents,
-    generationConfig: json
-      ? {
-          temperature: temperature ?? 0.2,
-          responseMimeType: "application/json",
-          responseSchema: CLARIFY_SCHEMA,
-        }
-      : { temperature: temperature ?? 0.2 },
-  };
+async function callModel({ system, messages, json, signal }) {
   let res;
   try {
-    res = await fetch(GEMINI_ENDPOINT, {
+    res = await fetch(INFERENCE_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", [GEMINI_KEY_HEADER]: apiKey },
-      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${PUBLIC_KEY}` },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [
+          { role: "system", content: json ? `${system}\n\n${CLARIFY_FORMAT}` : system },
+          ...messages,
+        ],
+      }),
       signal,
     });
   } catch (e) {
     if (e && e.name === "AbortError") throw e;
-    throw new Error("The request to Google did not go through. Check your connection.");
+    throw new Error("The inference request did not go through. Check your connection.");
   }
   if (!res.ok) {
-    if (res.status === 400 || res.status === 401 || res.status === 403) {
-      throw new Error(
-        "Google rejected the key. Check that it is a Gemini API key and that it is still active.",
-      );
-    }
-    if (res.status === 429) {
-      throw new Error("The key hit its rate limit. Wait a moment and send it again.");
-    }
-    throw new Error(`Google returned an error (${res.status}).`);
+    if (res.status === 429) throw new Error("The service is busy or its limit was reached. Try again later.");
+    if (res.status === 401 || res.status === 403 || res.status === 404)
+      throw new Error("The inference service denied this request. Use the public site or check its access policy.");
+    throw new Error(`The inference service returned an error (${res.status}).`);
   }
   const data = await res.json();
-  const blocked = data.promptFeedback && data.promptFeedback.blockReason;
-  if (blocked) throw new Error("Google blocked the request. Try rewording the situation.");
-  const parts = (data.candidates && data.candidates[0] && data.candidates[0].content
-    ? data.candidates[0].content.parts || []
-    : []
-  )
-    .map((p) => p.text || "")
-    .join("")
-    .trim();
-  if (!parts) throw new Error("Google returned an empty answer. Send it again.");
-  return parts;
+  const text = data.choices?.[0]?.message?.content;
+  if (typeof text !== "string" || !text.trim())
+    throw new Error("The model returned an empty answer. Send it again.");
+  return text.trim();
 }
 
-function turnsToContents(messages) {
+function turnsToMessages(messages) {
   return messages
     .filter((m) => m.text && (m.role === "user" || m.kind === "answer" || m.kind === "clarify"))
-    .map((m) => ({ role: m.role === "user" ? "user" : "model", parts: [{ text: m.text }] }));
+    .map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text }));
 }
 
 // ---------- small shared pieces ----------
-
-function useKey() {
-  const [key, setKey] = useState(() => {
-    try {
-      return localStorage.getItem(KEY_STORAGE_NAME) || "";
-    } catch {
-      return "";
-    }
-  });
-  const save = useCallback((value) => {
-    try {
-      localStorage.setItem(KEY_STORAGE_NAME, value);
-    } catch {
-      /* private mode: the key stays in memory for this tab */
-    }
-    setKey(value);
-  }, []);
-  const clear = useCallback(() => {
-    try {
-      localStorage.removeItem(KEY_STORAGE_NAME);
-    } catch {
-      /* nothing stored */
-    }
-    setKey("");
-  }, []);
-  return { key, save, clear };
-}
 
 function Markdown({ text, className = "" }) {
   const html = useMemo(
@@ -603,124 +538,6 @@ function WayDrawer({ way, onClose }) {
   );
 }
 
-// ---------- key dialog ----------
-
-function KeyDialog({ currentKey, onSave, onClear, onClose }) {
-  const [value, setValue] = useState(currentKey || "");
-  const inputRef = useRef(null);
-  const panelRef = useRef(null);
-
-  useEffect(() => {
-    const previous = document.activeElement;
-    inputRef.current && inputRef.current.focus();
-    const onKey = (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onClose();
-        return;
-      }
-      if (e.key !== "Tab" || !panelRef.current) return;
-      const focusable = panelRef.current.querySelectorAll(
-        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-      if (previous && previous.focus) previous.focus();
-    };
-  }, [onClose]);
-
-  const submit = (e) => {
-    e.preventDefault();
-    const trimmed = value.trim();
-    if (trimmed) onSave(trimmed);
-  };
-
-  return (
-    <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="absolute inset-0 bg-base-content/40" onClick={onClose} aria-hidden="true" />
-      <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="key-title"
-        aria-describedby="key-desc"
-        className="relative w-full max-h-[100dvh] overflow-y-auto sm:max-w-lg bg-base-100 rounded-t-2xl sm:rounded-2xl shadow-2xl"
-      >
-        <form onSubmit={submit} className="p-6">
-          <h2 id="key-title" className="font-display text-xl font-semibold mb-2">
-            Add your Gemini API key
-          </h2>
-          <div id="key-desc" className="secondary-text text-sm space-y-2 mb-4">
-            <p>
-              Ask The Way runs in this browser tab. Your situation and the text of the relevant
-              Kalvium Way pages go straight from here to Google, using your key. No application
-              server sits in between.
-            </p>
-            <p>
-              A key held in a browser cannot be kept secret: any script on this page can read it.
-              Use a free-tier key, and remove it here when you are done. It is stored in this
-              browser only, under <code>{KEY_STORAGE_NAME}</code>, and never appears in the address
-              bar.
-            </p>
-            <p>
-              <a
-                className="link link-primary"
-                href={AI_STUDIO_KEYS_URL}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Get a key from Google AI Studio
-              </a>
-              , then paste it below.
-            </p>
-          </div>
-          <label className="form-control w-full">
-            <span className="label-text mb-1">Gemini API key</span>
-            <input
-              ref={inputRef}
-              type="password"
-              autoComplete="off"
-              spellCheck="false"
-              name="gemini-api-key"
-              className="input input-bordered ui-border w-full font-mono text-sm"
-              placeholder="AIza..."
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </label>
-          <div className="mt-5 flex flex-wrap gap-2 justify-end">
-            {currentKey && (
-              <button type="button" className="btn btn-ghost text-error" onClick={onClear}>
-                Remove key
-              </button>
-            )}
-            <button type="button" className="btn btn-ghost" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary" disabled={!value.trim()}>
-              {currentKey ? "Update key" : "Save key"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 // ---------- composer ----------
 
 function Composer({ value, setValue, onSubmit, busy, inputRef }) {
@@ -780,7 +597,7 @@ function Composer({ value, setValue, onSubmit, busy, inputRef }) {
 
 // ---------- landing ----------
 
-function Landing({ ways, onOpen, onAsk, draft, setDraft, busy, inputRef, onKey }) {
+function Landing({ ways, onOpen, onAsk, draft, setDraft, busy, inputRef }) {
   const [showAll, setShowAll] = useState(false);
   const dayKey = new Date().toISOString().slice(0, 10);
   const orderedWays = useMemo(() => {
@@ -792,14 +609,6 @@ function Landing({ ways, onOpen, onAsk, draft, setDraft, busy, inputRef, onKey }
 
   return (
     <div className="relative min-h-screen bg-base-100 px-4 sm:px-6">
-      <button
-        className="btn btn-xs btn-ghost absolute right-3 top-3 text-base-content/80 sm:right-6 sm:top-5"
-        onClick={onKey}
-        aria-label="Gemini API key settings"
-      >
-        key
-      </button>
-
       <section className="mx-auto max-w-2xl pt-20 text-center sm:pt-[20vh]">
         <h1 className="font-display text-4xl font-semibold lowercase tracking-tight sm:text-5xl">
           ask <span className="wordmark-accent">the way</span>
@@ -994,10 +803,6 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [stage, setStage] = useState(null); // null | "clarify" | "answer"
-  const [keyDialog, setKeyDialog] = useState(false);
-  const { key, save, clear } = useKey();
-
-  const pendingRef = useRef(null); // text held while the key dialog is open
   const drawerPushedRef = useRef(false);
   const messagesRef = useRef([]);
   const requestRef = useRef(null);
@@ -1074,21 +879,18 @@ function App() {
     setMessages(next);
   }, []);
 
-  // apiKey is passed in rather than read from state: the first ask resumes right
-  // after the key dialog saves, before the state update has landed.
   const run = useCallback(
-    async (turns, apiKey) => {
+    async (turns) => {
       if (requestRef.current) return;
       const controller = new AbortController();
       const token = { controller };
       requestRef.current = token;
-      const contents = turnsToContents(turns);
+      const messages = turnsToMessages(turns);
       setStage("clarify");
       try {
-        const triageRaw = await callGemini({
-          apiKey,
+        const triageRaw = await callModel({
           system: clarifySystemPrompt(catalogue),
-          contents,
+          messages,
           json: true,
           signal: controller.signal,
         });
@@ -1131,18 +933,13 @@ function App() {
         const pageContext = `The pages of The Kalvium Way that apply to this situation:\n\n${pages.join(
           "\n\n---\n\n",
         )}`;
-        const answer = await callGemini({
-          apiKey,
+        const answer = await callModel({
           system: answerSystemPrompt(),
-          contents: [
-            ...contents,
-            {
-              role: "user",
-              parts: [{ text: `${pageContext}\n\nAnswer the situation above using only these pages.` }],
-            },
+          messages: [
+            ...messages,
+            { role: "user", content: `${pageContext}\n\nAnswer the situation above using only these pages.` },
           ],
           signal: controller.signal,
-          temperature: 0.15,
         });
         if (requestRef.current !== token) return;
         push({ role: "assistant", kind: "answer", text: answer, slugs: decision.slugs });
@@ -1168,46 +965,22 @@ function App() {
     (text) => {
       const trimmed = String(text || "").trim();
       if (!trimmed || stage || requestRef.current) return;
-      if (!key) {
-        pendingRef.current = trimmed;
-        setKeyDialog(true);
-        return;
-      }
       const turn = { id: nextId(), role: "user", text: trimmed };
       const next = [...messagesRef.current, turn];
       replaceMessages(next);
-      run(next, key);
+      run(next);
       setDraft("");
       if (base !== "ask") goto("ask");
     },
-    [key, stage, run, base, goto, replaceMessages],
+    [stage, run, base, goto, replaceMessages],
   );
 
   const retry = useCallback(() => {
     if (requestRef.current) return;
     const kept = messagesRef.current.filter((m) => m.kind !== "error");
     replaceMessages(kept);
-    if (kept.some((m) => m.role === "user")) run(kept, key);
-  }, [run, key, replaceMessages]);
-
-  const onSaveKey = useCallback(
-    (value) => {
-      if (requestRef.current) requestRef.current.controller.abort();
-      save(value);
-      setKeyDialog(false);
-      const pending = pendingRef.current;
-      pendingRef.current = null;
-      if (pending) {
-        const turn = { id: nextId(), role: "user", text: pending };
-        const next = [...messagesRef.current, turn];
-        replaceMessages(next);
-        run(next, value);
-        setDraft("");
-        goto("ask");
-      }
-    },
-    [save, goto, run, replaceMessages],
-  );
+    if (kept.some((m) => m.role === "user")) run(kept);
+  }, [run, replaceMessages]);
 
 
   const applyDefaults = useCallback(
@@ -1261,13 +1034,6 @@ function App() {
               ask <span className="wordmark-accent">the way</span>
             </a>
             </h1>
-            <button
-              className="btn btn-xs btn-ghost ml-auto text-base-content/80"
-              onClick={() => setKeyDialog(true)}
-              aria-label="Gemini API key settings"
-            >
-              key
-            </button>
           </div>
         </header>
       )}
@@ -1295,7 +1061,6 @@ function App() {
             setDraft={setDraft}
             busy={!!stage}
             inputRef={inputRef}
-            onKey={() => setKeyDialog(true)}
           />
         )}
       </main>
@@ -1310,22 +1075,6 @@ function App() {
             </button>
           </div>
         </div>
-      )}
-      {keyDialog && (
-        <KeyDialog
-          currentKey={key}
-          onSave={onSaveKey}
-          onClear={() => {
-            if (requestRef.current) requestRef.current.controller.abort();
-            clear();
-            pendingRef.current = null;
-            setKeyDialog(false);
-          }}
-          onClose={() => {
-            pendingRef.current = null;
-            setKeyDialog(false);
-          }}
-        />
       )}
     </div>
   );

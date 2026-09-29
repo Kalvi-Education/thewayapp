@@ -138,6 +138,17 @@ function parseJsonReply(raw) {
   }
 }
 
+// Reject malformed routing replies instead of treating prose or invented slugs as an answer.
+function validRoutingReply(triage, allowedSlugs) {
+  if (!triage || typeof triage !== "object" || Array.isArray(triage)) return false;
+  if (typeof triage.contextIsClear !== "boolean") return false;
+  if (!Array.isArray(triage.questions) || !Array.isArray(triage.slugs)) return false;
+  if (triage.questions.some((q) => typeof q !== "string" || !q.trim())) return false;
+  if (triage.slugs.some((s) => typeof s !== "string" || !allowedSlugs.has(s))) return false;
+  if (triage.contextIsClear) return triage.questions.length === 0 && triage.slugs.length <= 3;
+  return triage.questions.length === 1 && triage.slugs.length === 0;
+}
+
 // The clarity gate. Stage 2 runs only when the model says the situation is clear
 // and at least one returned slug is a real active way.
 function resolveStage(triage, allowedSlugs) {
@@ -169,7 +180,7 @@ function clarifySystemPrompt(catalogue) {
   return [
     "You are kalvium's handbook assistant. Route the conversation to The Kalvium Way pages.",
     "Answer when you can give useful advice from the book. Do not ask for details that would only make the answer more specific. If a missing fact would materially change the advice, ask ONE plain, natural question; do not answer yet. Never ask for something already said in the chat.",
-    "If clear, choose one to three relevant slugs, most relevant first, and no questions. Copy slugs exactly. If nothing applies, return no slugs. If clarification is needed, return exactly one question and no slugs. No suggested answers or defaults.",
+    "If clear, choose one to three relevant slugs, most relevant first, and no questions. Copy slugs exactly. If nothing applies, return no slugs. If clarification is needed, return exactly one question and no slugs. No suggested answers or defaults. This is routing only: never write advice or a list of pages in prose.",
     "Catalogue (slug | title):",
     catalogueLines(catalogue),
   ].join("\n");
@@ -185,6 +196,7 @@ function answerSystemPrompt() {
 }
 
 const CLARIFY_FORMAT = "Return only a JSON object with contextIsClear (boolean), questions (array of strings), and slugs (array of strings). No Markdown fences.";
+const ROUTING_REPAIR = "Your previous reply was not valid routing JSON. Reconsider the conversation using the catalogue above. Return ONLY a JSON object with contextIsClear, questions, and slugs. If you can answer, questions must be [] and slugs must contain one to three exact catalogue slugs (or [] if none apply). If you must clarify, questions must contain one plain question and slugs must be []. No advice, Markdown or explanations.";
 
 
 // ---------- end pure helpers (region: pure) ----------
@@ -780,14 +792,41 @@ function App() {
       const messages = turnsToMessages(turns);
       setStage("clarify");
       try {
+        const routingSystem = clarifySystemPrompt(catalogue);
         const triageRaw = await callModel({
-          system: clarifySystemPrompt(catalogue),
+          system: routingSystem,
           messages,
           json: true,
           signal: controller.signal,
         });
         if (requestRef.current !== token) return;
-        const decision = resolveStage(parseJsonReply(triageRaw), allowedSlugs);
+        let triage;
+        try {
+          triage = parseJsonReply(triageRaw);
+        } catch {
+          // A prose reply is not an answer: try the router once more.
+        }
+        if (!validRoutingReply(triage, allowedSlugs)) {
+          const repaired = await callModel({
+            system: routingSystem,
+            messages: [
+              ...messages,
+              { role: "assistant", content: triageRaw },
+              { role: "user", content: ROUTING_REPAIR },
+            ],
+            json: true,
+            signal: controller.signal,
+          });
+          if (requestRef.current !== token) return;
+          try {
+            triage = parseJsonReply(repaired);
+          } catch {
+            // The visitor gets a retry action, never the raw model reply.
+          }
+          if (!validRoutingReply(triage, allowedSlugs))
+            throw new Error("I could not choose the right pages this time. Try again.");
+        }
+        const decision = resolveStage(triage, allowedSlugs);
 
         if (decision.mode === "clarify") {
           const text = decision.questions[0];

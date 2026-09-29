@@ -300,7 +300,7 @@ function WayCard({ way, onOpen, compact = false }) {
       <a
         href={hashFor("way", way.slug)}
         onClick={open}
-        className="group ui-border flex min-h-11 items-stretch overflow-hidden rounded-lg border bg-base-100 hover:border-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition"
+        className="way-card group ui-border flex min-h-11 items-stretch overflow-hidden rounded-lg border bg-base-100 hover:border-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <div className="w-1.5 shrink-0 overflow-hidden">
           <WayArt slug={way.slug} className="h-full w-full" />
@@ -316,7 +316,7 @@ function WayCard({ way, onOpen, compact = false }) {
     <a
       href={hashFor("way", way.slug)}
       onClick={open}
-      className="tile group ui-border block h-full min-h-24 overflow-hidden rounded-lg border bg-base-100 hover:border-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition"
+      className="way-card tile group ui-border block h-full min-h-24 overflow-hidden rounded-lg border bg-base-100 hover:border-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     >
       <div className="h-2 overflow-hidden">
         <WayArt slug={way.slug} className="h-full w-full" />
@@ -395,7 +395,7 @@ function WayDrawer({ way, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div
-        className="absolute inset-0 bg-base-content/40"
+        className="drawer-backdrop absolute inset-0 bg-base-content/40"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -407,7 +407,7 @@ function WayDrawer({ way, onClose }) {
         className="drawer-panel relative h-full w-full sm:w-[34rem] lg:w-[40rem] bg-base-100 shadow-2xl flex flex-col"
       >
         <div className="ui-border shrink-0 border-b">
-          <div className="h-3 overflow-hidden">
+          <div className="drawer-art h-10 overflow-hidden">
             <WayArt slug={way.slug} className="w-full h-full" />
           </div>
           <div className="p-5 pb-4 flex items-start gap-4">
@@ -532,7 +532,7 @@ function Landing({ ways, onOpen, onAsk, draft, setDraft, busy, inputRef }) {
   const visibleWays = showAll ? orderedWays : orderedWays.slice(0, 4);
 
   return (
-    <div className="relative min-h-screen bg-base-100 px-4 sm:px-6">
+    <div className="landing-wash relative min-h-screen bg-base-100 px-4 sm:px-6">
       <section className="mx-auto max-w-2xl pt-20 text-center sm:pt-[20vh]">
         <h1 className="font-display text-4xl font-semibold lowercase tracking-tight sm:text-5xl">
           ask <span className="wordmark-accent">the way</span>
@@ -649,7 +649,10 @@ function Chat({
     const latest = messages[messages.length - 1];
     if (!latest || !logRef.current) return;
     const node = logRef.current.querySelector(`[data-message-id="${latest.id}"]`);
-    node && node.scrollIntoView({ block: "start", behavior: "smooth" });
+    if (node) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      node.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" });
+    }
   }, [messages]);
 
   return (
@@ -663,7 +666,7 @@ function Chat({
           aria-label="Conversation"
         >
           {messages.map((m) => (
-            <div key={m.id} data-message-id={m.id} className="scroll-mt-4">
+            <div key={m.id} data-message-id={m.id} className="chat-entry scroll-mt-4">
               <Message
                 message={m}
                 waysBySlug={waysBySlug}

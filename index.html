@@ -99,24 +99,52 @@
         border-color: #59616c;
         color: #202733;
       }
+      /* Colour stays behind the landing page; the conversation stays plain. */
+      .landing-wash {
+        background-image:
+          radial-gradient(ellipse 65% 38% at 18% 12%, rgba(194, 24, 91, 0.045), transparent 100%),
+          radial-gradient(ellipse 55% 38% at 85% 38%, rgba(80, 120, 160, 0.055), transparent 100%);
+      }
+      .way-card {
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+      .way-card:hover, .way-card:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 16px rgba(32, 39, 51, 0.09);
+      }
+      .drawer-art {
+        -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
+      }
+      .drawer-backdrop {
+        animation: backdrop-in 200ms ease-out both;
+      }
       .drawer-panel {
-        animation: slide-in 200ms ease-out;
+        animation: slide-in 240ms cubic-bezier(.22, 1, .36, 1) both;
+      }
+      .chat-entry {
+        animation: entry-in 160ms ease-out both;
+      }
+      @keyframes backdrop-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
       @keyframes slide-in {
-        from {
-          transform: translateX(16px);
-          opacity: 0;
-        }
-        to {
-          transform: none;
-          opacity: 1;
-        }
+        from { transform: translateX(24px); opacity: 0; }
+        to { transform: none; opacity: 1; }
+      }
+      @keyframes entry-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .drawer-panel {
-          animation: none;
-          transition: none;
-        }
+        .way-card { transition: none; }
+        .way-card:hover, .way-card:focus-visible { transform: none; }
+        .drawer-backdrop, .drawer-panel, .chat-entry { animation: none; }
+      }
+      @media (forced-colors: active) {
+        .landing-wash { background-image: none; }
+        .drawer-art { -webkit-mask-image: none; mask-image: none; }
       }
     </style>
     <script type="importmap">
